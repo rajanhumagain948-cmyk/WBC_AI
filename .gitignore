@@ -1,0 +1,16 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# 環境変数(APIキーなど)- 絶対に公開しない
+.env
+
+# ベクトルDB(サイズが大きい・再生成できる)
+chroma_db/
+
+# Mac
+.DS_Store
+
+# PDF(著作権のある学校資料のため)
+pdfs/*.pdf
