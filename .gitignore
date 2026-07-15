@@ -13,4 +13,4 @@ chroma_db/
 .DS_Store
 
 # PDF(著作権のある学校資料のため)
-pdfs/*.pdf
+backend/pdfs/*.pdf
