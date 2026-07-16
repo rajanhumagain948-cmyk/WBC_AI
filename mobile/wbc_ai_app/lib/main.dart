@@ -42,6 +42,19 @@ class _ChatScreenState extends State<ChatScreen> {
   ];
 
   bool _isLoading = false;
+  // よくある質問
+  final List<String> _quickQuestions = [
+    "出席率は何%必要?",
+    "ビザ更新の必要書類は?",
+    "アルバイトは週何時間まで?",
+    "卒業の条件は?",
+    "就職活動はいつから?",
+  ];
+
+  void _sendQuickQuestion(String question) {
+    _controller.text = question;
+    _sendMessage();
+  }
 
   Future<void> _sendMessage() async {
     final text = _controller.text.trim();
@@ -134,6 +147,32 @@ class _ChatScreenState extends State<ChatScreen> {
                       msg["text"] ?? "",
                       style: TextStyle(color: isUser ? Colors.white : Colors.black87),
                     ),
+                  ),
+                );
+              },
+            ),
+          ),
+          // ★よくある質問チップ(ここが新しい部分)
+          Container(
+            height: 44,
+            color: Colors.white,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+              itemCount: _quickQuestions.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: ActionChip(
+                    label: Text(
+                      _quickQuestions[index],
+                      style: const TextStyle(fontSize: 13, color: wbcGreen),
+                    ),
+                    backgroundColor: wbcGreen.withOpacity(0.08),
+                    side: BorderSide(color: wbcGreen.withOpacity(0.4)),
+                    onPressed: _isLoading
+                        ? null
+                        : () => _sendQuickQuestion(_quickQuestions[index]),
                   ),
                 );
               },
