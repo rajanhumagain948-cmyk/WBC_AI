@@ -1,3 +1,4 @@
+import 'main_screen.dart';
 import 'package:flutter/material.dart';
 import 'main.dart';
 
@@ -39,7 +40,7 @@ class _SplashScreenState extends State<SplashScreen>
       if (mounted) {
         Navigator.of(context).pushReplacement(
           PageRouteBuilder(
-            pageBuilder: (_, __, ___) => const ChatScreen(),
+            pageBuilder: (_, __, ___) => const MainScreen(),
             transitionsBuilder: (_, animation, __, child) {
               return FadeTransition(opacity: animation, child: child);
             },
