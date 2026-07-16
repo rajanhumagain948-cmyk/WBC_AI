@@ -89,7 +89,26 @@ class _ChatScreenState extends State<ChatScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: wbcGreen,
-        title: const Text('WBC AI', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 32,
+              height: 32,
+              padding: const EdgeInsets.all(4),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Image.asset('assets/images/logo.png'),
+            ),
+            const SizedBox(width: 10),
+            const Text(
+              'WBC AI',
+              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
         centerTitle: true,
       ),
       body: Column(

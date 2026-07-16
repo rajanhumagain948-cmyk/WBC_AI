@@ -70,13 +70,14 @@ class _SplashScreenState extends State<SplashScreen>
               children: [
                 // ロゴ(画像が用意できたらImage.assetに差し替え)
                 Container(
-                  width: 100,
-                  height: 100,
+                  width: 120,
+                  height: 120,
+                  padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(24),
                   ),
-                  child: const Icon(Icons.school, size: 60, color: wbcGreen),
+                  child: Image.asset('assets/images/logo.png'),
                 ),
                 const SizedBox(height: 24),
                 const Text(
