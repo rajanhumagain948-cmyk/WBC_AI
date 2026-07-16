@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'splash_screen.dart';
 
 void main() {
   runApp(const WbcAiApp());
@@ -22,7 +23,7 @@ class WbcAiApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: wbcGreen),
         useMaterial3: true,
       ),
-      home: const ChatScreen(),
+     home: const SplashScreen(),
     );
   }
 }
