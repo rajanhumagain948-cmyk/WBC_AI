@@ -23,7 +23,7 @@ class WbcAiApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: wbcGreen),
         useMaterial3: true,
       ),
-     home: const SplashScreen(),
+      home: const SplashScreen(),
     );
   }
 }
@@ -42,6 +42,55 @@ class _ChatScreenState extends State<ChatScreen> {
   ];
 
   bool _isLoading = false;
+
+  // ★言語設定
+  String _language = "日本語";
+
+  final Map<String, String> _languages = {
+    "日本語": "🇯🇵",
+    "English": "🇺🇸",
+    "नेपाली (Nepali)": "🇳🇵",
+    "Tiếng Việt": "🇻🇳",
+    "မြန်မာ (Myanmar)": "🇲🇲",
+    "বাংলা (Bengali)": "🇧🇩",
+    "සිංහල (Sinhala)": "🇱🇰",
+    "简体中文": "🇨🇳",
+  };
+
+  void _showLanguagePicker() {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return ListView(
+          padding: const EdgeInsets.all(16),
+          children: [
+            const Text(
+              '🌐 Language / 言語',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            for (final entry in _languages.entries)
+              ListTile(
+                leading: Text(entry.value, style: const TextStyle(fontSize: 24)),
+                title: Text(entry.key),
+                trailing: _language == entry.key
+                    ? const Icon(Icons.check, color: wbcGreen)
+                    : null,
+                onTap: () {
+                  setState(() => _language = entry.key);
+                  Navigator.pop(context);
+                },
+              ),
+          ],
+        );
+      },
+    );
+  }
+
   // よくある質問
   final List<String> _quickQuestions = [
     "出席率は何%必要?",
@@ -71,7 +120,7 @@ class _ChatScreenState extends State<ChatScreen> {
       final response = await http.post(
         Uri.parse('http://127.0.0.1:8000/chat'),
         headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({'question': text}),
+        body: jsonEncode({'question': text, 'language': _language}), // ★言語を送信
       );
 
       final data = jsonDecode(utf8.decode(response.bodyBytes));
@@ -123,6 +172,17 @@ class _ChatScreenState extends State<ChatScreen> {
           ],
         ),
         centerTitle: true,
+        // ★言語ボタン
+        actions: [
+          IconButton(
+            onPressed: _showLanguagePicker,
+            icon: Text(
+              _languages[_language] ?? "🌐",
+              style: const TextStyle(fontSize: 22),
+            ),
+            tooltip: 'Language',
+          ),
+        ],
       ),
       body: Column(
         children: [
@@ -152,7 +212,7 @@ class _ChatScreenState extends State<ChatScreen> {
               },
             ),
           ),
-          // ★よくある質問チップ(ここが新しい部分)
+          // よくある質問チップ
           Container(
             height: 44,
             color: Colors.white,

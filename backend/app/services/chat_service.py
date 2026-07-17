@@ -17,9 +17,14 @@ query_engine = index.as_query_engine(
 )
 
 
-def ask(question: str) -> dict:
-    """質問を受け取り、回答と出典を返す"""
-    response = query_engine.query(question)
+def ask(question: str, language: str = "日本語") -> dict:
+    """質問を受け取り、指定された言語で回答と出典を返す"""
+    prompt = (
+        f"次の質問に、必ず{language}で回答してください。"
+        f"資料は日本語ですが、回答は{language}に翻訳して答えてください。\n\n"
+        f"質問: {question}"
+    )
+    response = query_engine.query(prompt)
 
     sources = []
     for node in response.source_nodes:

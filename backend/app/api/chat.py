@@ -8,9 +8,10 @@ router = APIRouter()
 
 class ChatRequest(BaseModel):
     question: str
+    language: str = "日本語"  # デフォルトは日本語
 
 
 @router.post("/chat")
 def chat(request: ChatRequest):
-    result = ask(request.question)
+    result = ask(request.question, request.language)
     return result
