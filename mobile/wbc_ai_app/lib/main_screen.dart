@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'main.dart';
 import 'teachers_screen.dart';
+import 'school_info_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -15,6 +16,7 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget> _screens = const [
     ChatScreen(),
     TeachersScreen(),
+    SchoolInfoScreen(),
   ];
 
   @override
@@ -34,6 +36,10 @@ class _MainScreenState extends State<MainScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.people_outline),
             label: '先生紹介',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.school_outlined),
+            label: '学校情報',
           ),
         ],
       ),
