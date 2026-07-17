@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'splash_screen.dart';
 
 void main() {
@@ -43,7 +44,43 @@ class _ChatScreenState extends State<ChatScreen> {
 
   bool _isLoading = false;
 
-  // ★言語設定
+  // ===== ★履歴の永続保存 =====
+
+  @override
+  void initState() {
+    super.initState();
+    _loadHistory();
+  }
+
+  Future<void> _loadHistory() async {
+    final prefs = await SharedPreferences.getInstance();
+    final saved = prefs.getString('chat_history');
+    if (saved != null) {
+      final List<dynamic> decoded = jsonDecode(saved);
+      setState(() {
+        _messages
+          ..clear()
+          ..addAll(decoded.map((e) => Map<String, String>.from(e)));
+      });
+    }
+  }
+
+  Future<void> _saveHistory() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('chat_history', jsonEncode(_messages));
+  }
+
+  Future<void> _clearHistory() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('chat_history');
+    setState(() {
+      _messages
+        ..clear()
+        ..add({"role": "ai", "text": "こんにちは!WBC AIです。学校生活やビザについて質問してください😊"});
+    });
+  }
+
+  // ===== 言語設定 =====
   String _language = "日本語";
 
   final Map<String, String> _languages = {
@@ -120,7 +157,7 @@ class _ChatScreenState extends State<ChatScreen> {
       final response = await http.post(
         Uri.parse('http://127.0.0.1:8000/chat'),
         headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({'question': text, 'language': _language}), // ★言語を送信
+        body: jsonEncode({'question': text, 'language': _language}),
       );
 
       final data = jsonDecode(utf8.decode(response.bodyBytes));
@@ -137,12 +174,14 @@ class _ChatScreenState extends State<ChatScreen> {
         _messages.add({"role": "ai", "text": "${data['answer']}\n$sourceText"});
         _isLoading = false;
       });
+      _saveHistory(); // ★保存
     } catch (e) {
       setState(() {
         _messages.removeLast();
         _messages.add({"role": "ai", "text": "エラーが発生しました。サーバーが起動しているか確認してください。"});
         _isLoading = false;
       });
+      _saveHistory(); // ★保存
     }
   }
 
@@ -172,7 +211,6 @@ class _ChatScreenState extends State<ChatScreen> {
           ],
         ),
         centerTitle: true,
-        // ★言語ボタン
         actions: [
           IconButton(
             onPressed: _showLanguagePicker,
@@ -181,6 +219,12 @@ class _ChatScreenState extends State<ChatScreen> {
               style: const TextStyle(fontSize: 22),
             ),
             tooltip: 'Language',
+          ),
+          // ★履歴削除ボタン
+          IconButton(
+            onPressed: _clearHistory,
+            icon: const Icon(Icons.delete_outline, color: Colors.white),
+            tooltip: '履歴を削除',
           ),
         ],
       ),
