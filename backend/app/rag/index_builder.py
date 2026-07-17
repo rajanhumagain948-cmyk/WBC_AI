@@ -6,6 +6,19 @@ from app.rag.pdf_loader import load_pdfs
 
 # PDFを1ページ=1ドキュメントで読み込む
 documents = load_pdfs()
+# 先生情報を追加
+from llama_index.core import Document
+from app.rag.teacher_text import TEACHER_INFO
+
+documents.append(
+    Document(
+        text=TEACHER_INFO,
+        metadata={
+            "file_name": "教員・職員紹介",
+            "page_label": "104-105",
+        },
+    )
+)
 
 storage_context = StorageContext.from_defaults(
     vector_store=vector_store
