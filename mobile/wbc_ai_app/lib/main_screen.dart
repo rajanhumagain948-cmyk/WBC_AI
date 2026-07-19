@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'main.dart';
 import 'teachers_screen.dart';
 import 'school_info_screen.dart';
+import 'timetable_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -17,6 +18,7 @@ class _MainScreenState extends State<MainScreen> {
     ChatScreen(),
     TeachersScreen(),
     SchoolInfoScreen(),
+    TimetableScreen(),
   ];
 
   @override
@@ -27,6 +29,7 @@ class _MainScreenState extends State<MainScreen> {
         children: _screens,
       ),
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         currentIndex: _index,
         selectedItemColor: wbcGreen,
         unselectedItemColor: Colors.grey,
@@ -43,6 +46,10 @@ class _MainScreenState extends State<MainScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.school_outlined),
             label: '学校情報',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.calendar_today_outlined),
+            label: '時間割',
           ),
         ],
       ),
