@@ -14,3 +14,10 @@ chroma_db/
 
 # PDF(著作権のある学校資料のため)
 backend/pdfs/*.pdf
+
+# Local calendar secrets and database
+backend/.env
+backend/data/
+backend/*.sqlite3
+backend/.venv/
+*.py[cod]

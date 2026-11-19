@@ -3,6 +3,7 @@ import 'main.dart';
 import 'teachers_screen.dart';
 import 'school_info_screen.dart';
 import 'timetable_screen.dart';
+import 'school_life_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -19,6 +20,7 @@ class _MainScreenState extends State<MainScreen> {
     TeachersScreen(),
     SchoolInfoScreen(),
     TimetableScreen(),
+    SchoolLifeScreen(),
   ];
 
   @override
@@ -50,6 +52,10 @@ class _MainScreenState extends State<MainScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.calendar_today_outlined),
             label: '時間割',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.event_note),
+            label: '遅延・予定',
           ),
         ],
       ),
